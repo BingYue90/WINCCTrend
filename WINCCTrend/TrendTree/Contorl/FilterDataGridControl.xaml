@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="TrendTree.Contorl.FilterDataGridControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:model="clr-namespace:TrendTree.Models"
+             xmlns:Resources="clr-namespace:TrendTree.Resources"
+             xmlns:local="clr-namespace:TrendTree.Contorl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TrendTree;component/Resources/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!--#region 下拉框数据 -->
+            <ObjectDataProvider x:Key="PathEnum" MethodName="GetNames" ObjectType="{x:Type Resources:EnumHelper}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="model:PathEnum"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="FilterTypeEnum" MethodName="GetNames" ObjectType="{x:Type Resources:EnumHelper}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="model:FilterTypeEnum"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key="OperatorEnum" MethodName="GetNames" ObjectType="{x:Type Resources:EnumHelper}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="model:OperatorEnum"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <!--#endregion-->
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <DataGrid Name="dataGrid" Style="{StaticResource DataGridStyle}" ItemsSource="{Binding RelativeSource={RelativeSource  Mode=FindAncestor,AncestorType={x:Type local:FilterDataGridControl}}, Path=Filters, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="新增" Command="{x:Static local:FilterDataGridControl.AddCommand}" CommandTarget="{Binding Path=PlacementTarget,RelativeSource={RelativeSource AncestorType=ContextMenu}}"/>
+                    <MenuItem Header="删除" Command="{x:Static local:FilterDataGridControl.DeleteCommand}"/>
+                    <MenuItem Header="更新查询字符串" Command="{x:Static local:FilterDataGridControl.UpdateCommand}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="条件" Width="80">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource PathEnum}}" Style="{StaticResource ComboBoxStyle}"
+                                   SelectedValue="{Binding PathSelect, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="运算域" Width="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource FilterTypeEnum}}" Style="{StaticResource ComboBoxStyle}"
+                                  SelectedValue ="{Binding FilterType, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="设置" Width="*" MinWidth="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" Margin="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="操作符" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource OperatorEnum}}" Style="{StaticResource ComboBoxStyle}"
+                                  SelectedValue ="{Binding OperatorSelect, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="操作">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button Command="{x:Static local:FilterDataGridControl.AddCommand}">
+                                    <Button.Content>
+                                        <Image Source="../Images/Add_32x32.png"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button Command="{x:Static local:FilterDataGridControl.DeleteCommand}" Grid.Column="1">
+                                    <Button.Content>
+                                        <Image Source="../Images/Cancel_32x32.png"/>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox  Name="FilterText" Margin="0,10"
+                  Grid.Row="1" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+    </Grid>
+</UserControl>

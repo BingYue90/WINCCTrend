@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="TrendTree.Contorl.IConSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Resources="clr-namespace:TrendTree.Resources"
+             xmlns:local="clr-namespace:TrendTree.Contorl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TrendTree;component/Resources/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!--#region 下拉框数据 -->
+            <!--<ObjectDataProvider x:Key="SelectEnum" MethodName="GetNames" ObjectType="{x:Type Resources:EnumHelper}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="local:SelectEnum"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>-->
+            <!--#endregion-->
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <Binding Path="Icon" RelativeSource="{RelativeSource Mode=Self}"/>
+    </UserControl.DataContext>
+    <StackPanel>
+        <!--#region 展开图标 -->
+        <StackPanel Orientation="Horizontal">
+            <Label Content="展开图标" Style="{StaticResource MarginUniform}" VerticalContentAlignment="Center" />
+            <Image Source="{Binding OpenIconPath}" Width="30" Style="{StaticResource MarginUniform}"/>
+            <Button Content="选择图标" Style="{StaticResource MarginUniform}" Command="{x:Static local:IConSetting.SelectCommand}" CommandParameter="0"/>
+        </StackPanel>
+        <!--#endregion-->
+        <!--#region 折叠图标 -->
+        <StackPanel Orientation="Horizontal">
+            <Label Content="折叠图标" Style="{StaticResource MarginUniform}" VerticalContentAlignment="Center"/>
+            <Image Source="{Binding CloseIconPath}" Width="30" Style="{StaticResource MarginUniform}"/>
+            <Button Content="选择图标" Style="{StaticResource MarginUniform}" Command="{x:Static local:IConSetting.SelectCommand}" CommandParameter="1"/>
+        </StackPanel>
+        <!--#endregion-->
+        <!--#region 趋势图标 -->
+        <StackPanel Orientation="Horizontal">
+            <Label Content="趋势图标" Style="{StaticResource MarginUniform}" VerticalContentAlignment="Center"/>
+            <Image Source="{Binding TrendIconPath}" Width="30" Style="{StaticResource MarginUniform}"/>
+            <Button Content="选择图标" Style="{StaticResource MarginUniform}" Command="{x:Static local:IConSetting.SelectCommand}" CommandParameter="2"/>
+        </StackPanel>
+        <!--#endregion-->
+    </StackPanel>
+</UserControl>

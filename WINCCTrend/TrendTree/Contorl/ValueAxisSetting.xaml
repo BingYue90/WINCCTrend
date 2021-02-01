@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="TrendTree.Contorl.ValueAxisSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:model="clr-namespace:TrendTree.Models"
+             xmlns:Resources="clr-namespace:TrendTree.Resources"  
+             xmlns:local="clr-namespace:TrendTree.Contorl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="pack://application:,,,/TrendTree;component/Resources/Style.xaml"/>
+        </ResourceDictionary.MergedDictionaries>
+        <!--#region 下拉框数据 -->
+            <ObjectDataProvider x:Key="RangeEnum" MethodName="GetNames" ObjectType="{x:Type Resources:EnumHelper}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="model:ValueAxisRangeEnum"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <!--#endregion-->
+    </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <Binding RelativeSource="{RelativeSource Mode=Self}" Path="ValueAxis"/>
+    </UserControl.DataContext>
+    <StackPanel>
+        <WrapPanel>
+            <Label Content="选择区间类型:" Margin="10,1" />
+            <ComboBox Width="100"
+                    ItemsSource="{Binding Source={StaticResource RangeEnum}}" Style="{StaticResource ComboBoxStyle}"
+                          SelectedValue ="{Binding AutoValueAxis, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="1" Height="23" />
+            <CheckBox Content="自动新增数值轴" VerticalAlignment="Center" Style="{StaticResource MarginUniform}" IsChecked="{Binding  NewValueAxis}"/>
+        </WrapPanel>
+        <GroupBox Name="DynamicExpander" Header="后缀字符串" Visibility="Collapsed">
+            <StackPanel Background="#F6F8F8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="上限后缀" Style="{StaticResource MarginUniform}"/>
+                    <TextBox Text="{Binding HighString}" Style="{StaticResource MarginUniform}" Grid.Column="1" VerticalContentAlignment="Center"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="下限后缀" Style="{StaticResource MarginUniform}"/>
+                    <TextBox Text="{Binding LowString}" Style="{StaticResource MarginUniform}" Grid.Column="1" VerticalContentAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Name="FixedExpander" Header="上下限数值" Visibility="Collapsed">
+            <StackPanel  Background="#F6F8F8">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="上限后缀" Style="{StaticResource MarginUniform}"/>
+                    <TextBox Text="{Binding  HighLimit}" Style="{StaticResource MarginUniform}" Grid.Column="1" VerticalContentAlignment="Center"/>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="下限后缀" Style="{StaticResource MarginUniform}"/>
+                    <TextBox Text="{Binding LowLimit}" Style="{StaticResource MarginUniform}" Grid.Column="1" VerticalContentAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </GroupBox>
+    </StackPanel>
+</UserControl>
